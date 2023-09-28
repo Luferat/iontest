@@ -1,6 +1,10 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import { redirectUnauthorizedTo, redirectLoggedInTo, AuthGuard } from '@angular/fire/auth-guard';
+
+const toLogin = () => redirectUnauthorizedTo(['/login']);
+const toHome = () => redirectLoggedInTo(['/home']);
 
 const routes: Routes = [
 
@@ -46,6 +50,23 @@ const routes: Routes = [
     path: 'author',
     title: environment.appName + ' - Sobre os autores',
     loadChildren: () => import('./pages/author/author.module').then(m => m.AuthorPageModule)
+  },
+  {
+    path: 'profile',
+    title: environment.appName + ' - Perfil do usuário',
+    loadChildren: () => import('./user/profile/profile.module').then(m => m.ProfilePageModule),
+
+    // Se usuário não está logado, carrega 'login'.
+    canActivate: [AuthGuard],
+    data: { authGuardPipe: toLogin }
+  },
+  {
+    path: 'login',
+    loadChildren: () => import('./user/login/login.module').then(m => m.LoginPageModule),
+
+    // Se usuário já está logado, carrega a 'home'.
+    canActivate: [AuthGuard],
+    data: { authGuardPipe: toHome }
   },
 
   // Rota curinga. Deve ser sempre a última rota desta lista.
