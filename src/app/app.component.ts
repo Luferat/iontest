@@ -42,11 +42,9 @@ export class AppComponent {
     { title: 'Privacidade', url: 'policies', icon: 'lock-closed' }
   ];
 
-  constructor(
-    // Injeta roteamento interno.
-    private router: Router
-  ) {
+  constructor(private router: Router) { }
 
+  ngOnInit() {
     // Monitora status do usuário.
     onAuthStateChanged(this.auth, (user) => {
 
@@ -63,7 +61,6 @@ export class AppComponent {
         }
       }
     });
-
   }
 
 }
