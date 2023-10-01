@@ -8,6 +8,9 @@ export const environment = {
   // Método de login (popup ou redirect).
   signInMethod: 'redirect',
 
+  // Coleção do Firestore.
+  dbCollection: 'things',
+
   // Altere estas chaves conforme seu próprio projeto no Firebase.com.
   firebase: {
     apiKey: 'AIzaSyB3qGcFb11tOQGm2_vOnUxd7rQaBhcMkPQ',
