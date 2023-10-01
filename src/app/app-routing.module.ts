@@ -58,13 +58,18 @@ const routes: Routes = [
     loadChildren: () => import('./user/login/login.module').then(m => m.LoginPageModule),
   },
 
+  // Somente para pupular o banco de dados em tempo de desenvolvimento.
+  {
+    path: 'populate',
+    loadChildren: () => import('./database/populate/populate.module').then( m => m.PopulatePageModule)
+  },
+
   // Rota curinga. Deve ser sempre a última rota desta lista.
   {
     path: '**',
     redirectTo: 'e404',
     pathMatch: 'full'
   }
-
 ];
 
 @NgModule({

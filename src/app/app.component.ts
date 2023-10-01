@@ -4,7 +4,7 @@ import { environment } from 'src/environments/environment';
 // Importa componentes para Authentication. 
 import { Router } from '@angular/router';
 import { initializeApp } from "firebase/app";
-import { getAuth, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, signInWithRedirect } from "firebase/auth";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 @Component({
   selector: 'app-root',
