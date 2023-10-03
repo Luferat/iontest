@@ -77,6 +77,11 @@ const routes: Routes = [
     title: environment.appName + ' - Editar Documento',
     loadChildren: () => import('./db/edit/edit.module').then(m => m.EditPageModule)
   },
+  {
+    path: 'new',
+    title: environment.appName + ' - Novo Documento',
+    loadChildren: () => import('./db/new/new.module').then( m => m.NewPageModule)
+  },
 
   // Rota curinga. Deve ser sempre a última rota desta lista.
   {
@@ -84,7 +89,6 @@ const routes: Routes = [
     redirectTo: 'e404',
     pathMatch: 'full'
   }
-
 ];
 
 @NgModule({

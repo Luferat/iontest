@@ -7,9 +7,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EditPage implements OnInit {
 
+  view = false;
+
   constructor() { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
 }
