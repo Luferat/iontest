@@ -57,6 +57,26 @@ const routes: Routes = [
     title: environment.appName + ' - Perfil do usuário',
     loadChildren: () => import('./user/profile/profile.module').then(m => m.ProfilePageModule)
   },
+  {
+    path: 'create',
+    title: environment.appName + ' - Criar Db',
+    loadChildren: () => import('./db/create/create.module').then(m => m.CreatePageModule)
+  },
+  {
+    path: 'readall',
+    title: environment.appName + ' - Listar todos',
+    loadChildren: () => import('./db/readall/readall.module').then(m => m.ReadallPageModule)
+  },
+  {
+    path: 'readone/:id',
+    title: environment.appName + ' - Ler Documento',
+    loadChildren: () => import('./db/readone/readone.module').then(m => m.ReadonePageModule)
+  },
+  {
+    path: 'edit/:id',
+    title: environment.appName + ' - Editar Documento',
+    loadChildren: () => import('./db/edit/edit.module').then(m => m.EditPageModule)
+  },
 
   // Rota curinga. Deve ser sempre a última rota desta lista.
   {

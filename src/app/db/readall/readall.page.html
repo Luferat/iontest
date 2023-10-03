@@ -1,0 +1,28 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start"><ion-menu-button></ion-menu-button></ion-buttons>
+    <ion-title class="ion-text-center">Ler Todos</ion-title>
+    <ion-icon ios="flame-outline" md="flame-sharp" slot="end" class="ion-padding"></ion-icon>
+    <ion-progress-bar *ngIf="!view" type="indeterminate"></ion-progress-bar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" *ngIf="view">
+
+  <ion-list *ngIf="docView.length > 0" class="ion-margin">
+    <div *ngFor="let item of docView">
+      <ion-item [routerLink]="'/readone/' + item.id">
+        <ion-thumbnail slot="start"><img [alt]="item.name" [src]="item.image"></ion-thumbnail>
+        <ion-label>{{ item.name }}</ion-label>
+      </ion-item>
+    </div>
+  </ion-list>
+
+  <ion-card *ngIf="docView.length == 0">
+    <ion-card-header>
+      <ion-card-title>Oooops!</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>Não encontramos documentos.</ion-card-content>
+  </ion-card>
+
+</ion-content>
