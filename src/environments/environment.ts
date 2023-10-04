@@ -8,8 +8,11 @@ export const environment = {
   // Tipo de login. ['redirect' ou 'popup'].
   signInMethod: "redirect",
 
-  // Coleção do Firebase.
+  // Coleção principal do Firebase.
   dbCollection: 'things',
+
+  // Coleção de contatos do Firebase.
+  contactCollection: 'contacts',
 
   // Altere estas chaves conforme seu próprio projeto no Firebase.com.
   firebase: {
