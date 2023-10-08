@@ -8,6 +8,8 @@ import { EditPageRoutingModule } from './edit-routing.module';
 
 import { EditPage } from './edit.page';
 
+import { CrudformComponent } from 'src/app/components/crudform/crudform.component';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -15,6 +17,6 @@ import { EditPage } from './edit.page';
     IonicModule,
     EditPageRoutingModule
   ],
-  declarations: [EditPage]
+  declarations: [EditPage, CrudformComponent]
 })
-export class EditPageModule {}
+export class EditPageModule { }
