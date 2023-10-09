@@ -7,9 +7,9 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" *ngIf="view">
-  <p>Editando documento...</p>
+<ion-content [fullscreen]="true" *ngIf="view" class="ion-padding-start ion-padding-end">
 
-  <app-crudform [form]="form" [action]="action"></app-crudform>
+  <p>Editando documento...</p>
+  <app-crudform [form]="form"></app-crudform>
 
 </ion-content>

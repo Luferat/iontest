@@ -10,6 +10,7 @@ export class EditPage implements OnInit {
   view = false;
 
   form = {
+    id: '',
     date: '2023-02-20 09:10:11',
     name: 'Treco',
     description: 'Apenas um treco.',
@@ -20,8 +21,6 @@ export class EditPage implements OnInit {
     status: 'on',
     statusToggle: false
   }
-
-  action = 'edit';
 
   constructor() { }
 
