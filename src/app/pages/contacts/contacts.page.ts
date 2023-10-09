@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { environment } from 'src/environments/environment';
+
 import { initializeApp } from 'firebase/app';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { addDoc, collection, getFirestore } from 'firebase/firestore';
-import { environment } from 'src/environments/environment';
+
+import { ToolsService } from 'src/app/services/tools.service';
 
 @Component({
   selector: 'app-contacts',
@@ -11,74 +14,91 @@ import { environment } from 'src/environments/environment';
 })
 export class ContactsPage implements OnInit {
 
-  public env = environment;
-
-  // Modela entidade form.
-  public form = {
-    name: '',
-    email: '',
-    subject: '',
-    message: '',
-    date: '',
-    status: 'received',
-    sended: false
-  }
-
-  // Inicializa Firebase.
+  // Inicializa core do Firebase.
   app = initializeApp(environment.firebase);
 
   // Inicializa Authentication.
   auth = getAuth(this.app);
 
-  // Controla a view.
-  view = false;
-
-  // Inicializa Firestore.
+  // Inicializa o Firestore.
   db = getFirestore(this.app);
 
-  // Define a coleção.
-  contactsCollection = collection(this.db, environment.contactCollection);
+  // Define a coleção onde os contatos são armazenados.
+  contactCollection = collection(this.db, environment.contactCollection);
 
-  constructor() { }
+  // Variáveis de ambiente.
+  env = environment;
+
+  // Model do formulário.
+  form = {
+    date: '',           // Data de envio do contato.
+    name: '',
+    email: '',
+    subject: '',
+    message: '',
+    status: 'received'  // Situação do contato [received, readed, answered, deleted]
+  }
+
+  // Bloqueia botão de envio.
+  btnDisabled = true;
+
+  // Formulário ainda não foi enviado, mostra formulário.
+  sended = false;
+
+  constructor(
+    private tools: ToolsService
+  ) { }
 
   ngOnInit() {
+
+    // Monitora usuário logado.
     onAuthStateChanged(this.auth, (userData) => {
       if (userData) {
-
-        // Preenche os campos 'nome' e 'email'.
         this.form.name = userData.displayName + '';
         this.form.email = userData.email + '';
       }
     });
+
   }
 
-  // Salva contato.
+  // Quando ocorrem alterações no formulário.
+  change() {
+    // Valida campos do formulário usando 'stripTags()' e regex.
+    if (
+      this.tools.stripTags(this.form.name).length > 2 &&          // 'name' → com pelo menos 3 caracteres.
+      this.tools.isMail(this.tools.stripTags(this.form.email)) && // 'email' → respeita a regex.
+      this.tools.stripTags(this.form.subject).length > 2 &&       // 'subject' → com pelo menos 3 caracteres.
+      this.tools.stripTags(this.form.message).length > 4          // 'message' → com pelo menos 5 caracteres.
+    ) this.btnDisabled = false;                                   // Tudo válido → Desbloqueia o botão.
+    else this.btnDisabled = true;                                 // Algo inválido → Bloqueia o botão.              
+  }
+
+  // Processa envio do formulário.
   sendForm() {
 
-    // Regex simples para validar e-mail.
-    const regexEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    // Valida campos.
+    if (this.btnDisabled) return false;
 
-    // Valida preenchimento dos campos.
-    if (
-      this.form.name.trim().length < 3 ||
-      !regexEmail.test(this.form.email.trim()) ||
-      this.form.subject.trim().length < 3 ||
-      this.form.message.trim().length < 5
-    ) return false;
+    // Gera a data atual no formato ISO (yyyy-MM-dd HH:mm).
+    this.form.date = this.tools.now();
 
-    // Gera a data atual no formado ISO.
-    const d = new Date();
-    this.form.date = d.toISOString().split('.')[0].replace('T', ' ');
+    // Salva formulário no banco de dados.
+    addDoc(this.contactCollection, this.form)
 
-    // Salva contato no Firestore.
-    addDoc(this.contactsCollection, this.form)
+      // Se teve sucesso, oculta formulário e agradece ao usuário.
       .then((data) => {
-        console.log('Contato salvo com Id: ' + data.id)
-        this.form.sended = true;
+        console.log('Contato salvo com o Id: ' + data.id);
+        this.sended = true;
       })
 
-    // Encerra sem fazer mais nada.
-    return false;
+      // Se falhou, exibe mensagem de erro no console.
+      .catch((error) => {
+        console.error(error);
+      })
+
+    // Conclui 'sendForm()'.
+    return true;
+
   }
 
 }

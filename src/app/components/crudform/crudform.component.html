@@ -1,9 +1,8 @@
 <div id="form">
 
   <ion-card class="ion-no-margin">
-    <ion-img [src]="form.image" [alt]="form.image"></ion-img>
+    <ion-img [src]="form.image" [alt]="form.name"></ion-img>
     <ion-card-content class="ion-no-padding">
-      <p class="ion-text-center">{{ form.image }}</p>
       <ion-grid>
         <ion-row>
           <ion-col><ion-button size="default" (click)="getPhoto()"><ion-icon ios="camera-outline" md="camera-sharp" slot="start"></ion-icon>Nova</ion-button></ion-col>
