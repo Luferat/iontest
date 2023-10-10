@@ -14,7 +14,7 @@ const routes: Routes = [
   // Rota modelo do Ionic. Pode ser apagada posteriormente.
   {
     path: 'folder/:id',
-    title: environment.appName + ' - Página de teste',
+    title: environment.appName + ' - Página de Teste',
     loadChildren: () => import('./folder/folder.module').then(m => m.FolderPageModule)
   },
   {
@@ -24,7 +24,7 @@ const routes: Routes = [
   },
   {
     path: 'contacts',
-    title: environment.appName + ' - Faça contato',
+    title: environment.appName + ' - Faça Contato',
     loadChildren: () => import('./pages/contacts/contacts.module').then(m => m.ContactsPageModule)
   },
   {
@@ -34,7 +34,7 @@ const routes: Routes = [
   },
   {
     path: 'policies',
-    title: environment.appName + ' - Políticas de privacidade',
+    title: environment.appName + ' - Políticas de Privacidade',
     loadChildren: () => import('./pages/policies/policies.module').then(m => m.PoliciesPageModule)
   },
   {
@@ -44,7 +44,7 @@ const routes: Routes = [
   },
   {
     path: 'author',
-    title: environment.appName + ' - Sobre os autores',
+    title: environment.appName + ' - Sobre os Autores',
     loadChildren: () => import('./pages/author/author.module').then(m => m.AuthorPageModule)
   },
   {
@@ -54,23 +54,28 @@ const routes: Routes = [
   },
   {
     path: 'profile',
-    title: environment.appName + ' - Perfil do usuário',
+    title: environment.appName + ' - Perfil do Usuário',
     loadChildren: () => import('./user/profile/profile.module').then(m => m.ProfilePageModule)
   },
   {
     path: 'create',
-    title: environment.appName + ' - (Re)Cria banco de dados',
+    title: environment.appName + ' - (Re)Cria Banco de Dados',
     loadChildren: () => import('./db/create/create.module').then(m => m.CreatePageModule)
   },
   {
     path: 'view/:id',
-    title: environment.appName + ' - Exibe um documento',
+    title: environment.appName + ' - Exibe um Documento',
     loadChildren: () => import('./pages/view/view.module').then(m => m.ViewPageModule)
   },
   {
     path: 'device',
     title: environment.appName + ' - Testes com Device',
     loadChildren: () => import('./tests/device/device.module').then(m => m.DevicePageModule)
+  },
+  {
+    path: 'new',
+    title: environment.appName + ' - Novo Documento',
+    loadChildren: () => import('./pages/new/new.module').then( m => m.NewPageModule)
   },
 
   // Rota curinga. Deve ser sempre a última rota desta lista.

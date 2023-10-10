@@ -8,7 +8,7 @@ export const things = [
         owner: 'vV4hOwydQDNb1vNqaxlNwN6ikQM2',
         views: 0,
         status: 'on'
-    },
+    }, 
     {
         date: '2023-02-20 09:10:11',
         name: 'Treco',

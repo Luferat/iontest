@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 
 import { environment } from 'src/environments/environment';
 import { initializeApp } from "firebase/app";
@@ -7,6 +7,8 @@ import { addDoc, collection, getDocs, getFirestore, deleteDoc } from "firebase/f
 
 // Importa lista de documentos "fake".
 import { things } from "../data";
+
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create',
@@ -33,12 +35,15 @@ export class CreatePage implements OnInit {
   // Lista de documentos adicionados.
   docList: string[] = [];
 
+  // Roteamento local.
+  router = inject(Router);
+
   constructor() { }
 
   ngOnInit() {
 
     // Se estiver no modo de produção, vai para a 'home'.
-    if (environment.production == true) location.href = '/';
+    if (environment.production == true) this.router.navigate(['']);
 
     // Monitora status do usuário.
     onAuthStateChanged(this.auth, (user) => {
@@ -47,7 +52,7 @@ export class CreatePage implements OnInit {
       if (user) this.view = true;
 
       // Se não está logado, vai para a 'home'.
-      else location.href = '/';
+      else this.router.navigate(['']);
     });
 
   }

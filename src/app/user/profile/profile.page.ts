@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 // Importa o Core do Firebase.
 import { initializeApp } from 'firebase/app';
@@ -34,6 +35,8 @@ export class ProfilePage implements OnInit {
   // Configurações.
   env = environment;
 
+  router = inject(Router);
+
   constructor() { }
 
   ngOnInit() {
@@ -52,15 +55,15 @@ export class ProfilePage implements OnInit {
 
       } else {
 
-        // Se não está logado, redireciona, por exemplo, para 'login'.
-        location.href = '/';
+        // Se não está logado.
+        this.router.navigate(['/']);
       }
     });
   }
 
   // Logout do usuário.
   logout() {
-    this.auth.signOut();
+    this.auth.signOut()
     location.href = '/';
   }
 
