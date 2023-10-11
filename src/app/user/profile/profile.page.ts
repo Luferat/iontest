@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 // Importa o Core do Firebase.
 import { initializeApp } from 'firebase/app';
@@ -34,6 +35,9 @@ export class ProfilePage implements OnInit {
   // Configurações.
   env = environment;
 
+  // Roteamento interno.
+  router = inject(Router);
+
   constructor() { }
 
   ngOnInit() {
@@ -53,7 +57,7 @@ export class ProfilePage implements OnInit {
       } else {
 
         // Se não está logado, redireciona, por exemplo, para 'login'.
-        location.href = '/';
+        this.router.navigate(['/login']);
       }
     });
   }
@@ -61,11 +65,16 @@ export class ProfilePage implements OnInit {
   // Logout do usuário.
   logout() {
     this.auth.signOut();
+
+    // Vai para a home.
+    // Use 'location.href' para ação imediata, em vez de router.navigate().    
     location.href = '/';
   }
 
   // Acessa o perfil do usuário no Google.
   toGoogleProfile() {
+
+    // Abre o perfil em uma página/guia do navegador padrão.
     window.open('https://myaccount.google.com/', 'blank');
   }
 

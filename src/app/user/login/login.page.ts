@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
+import { Router } from '@angular/router';
 
 // Importa Firebase e componentes de authenticação.
 import { initializeApp } from 'firebase/app';
@@ -30,6 +31,9 @@ export class LoginPage implements OnInit {
   // Loding da página.
   view = false;
 
+  // Roteamento interno.
+  router = inject(Router);
+
   constructor() { }
 
   ngOnInit() {
@@ -37,7 +41,7 @@ export class LoginPage implements OnInit {
     onAuthStateChanged(this.auth, (user) => {
 
       // Se usuário está logado, manda para perfil.
-      if (user) location.href = '/';
+      if (user) this.router.navigate(['/']);
       else this.view = true;
     });
   }

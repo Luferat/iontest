@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { initializeApp } from 'firebase/app';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
@@ -43,13 +43,16 @@ export class ViewPage implements OnInit {
   // Documento não existe.
   docExist = false;
 
+  // Roteamento interno.
+  router = inject(Router);
+
   constructor() { }
 
   async ngOnInit() {
 
     // Se usuário não está logado, mostra login.
     onAuthStateChanged(this.auth, (userData) => {
-      if (!userData) location.href = '/login';
+      if (!userData) this.router.navigate(['/login']);
     });
 
     // Recebe o documento do Firestore.
@@ -76,7 +79,7 @@ export class ViewPage implements OnInit {
     } else {
 
       // Exibe erro na view.
-      this.docView = { status: 'error' };
+      this.docView['status'] = 'error';
     }
 
     // Exibe a view.
@@ -98,7 +101,7 @@ export class ViewPage implements OnInit {
           role: 'confirm',
           handler: async () => {
             await updateDoc(this.docRef, { status: 'off' });
-            location.href = '/';
+            this.router.navigate(['/']);
           },
         },
       ]

@@ -22,6 +22,7 @@
       {{ docView.description }}
       <ul style="padding: 0 0 0 1rem;">
         <li><strong>Local: </strong>{{ docView.location }}</li>
+        <li><strong>GPS: </strong><a href="https://www.google.com/maps/place/{{ docView.geolocation }}" target="_blank">{{ docView.geolocation }}</a></li>
       </ul>
 
       <ion-grid>
@@ -30,7 +31,8 @@
             <ion-button color="warning"><ion-icon name="create" slot="start"></ion-icon>Editar</ion-button>
           </ion-col>
           <ion-col class="ion-text-center">
-            <ion-button color="danger" (click)="delete(docView.id)"><ion-icon name="trash" slot="start"></ion-icon>Apagar</ion-button>
+            <ion-button color="danger" (click)="delete(docView.id)"><ion-icon name="trash"
+                slot="start"></ion-icon>Apagar</ion-button>
           </ion-col>
         </ion-row>
       </ion-grid>
