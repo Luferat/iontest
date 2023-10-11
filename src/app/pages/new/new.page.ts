@@ -121,6 +121,4 @@ export class NewPage implements OnInit {
     this.newDocument.geolocation = (this.toggleGPS) ? this.geolocation : '';
   }
 
-
-
 }
