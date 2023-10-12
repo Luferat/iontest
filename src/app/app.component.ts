@@ -62,9 +62,22 @@ export class AppComponent {
           avatar: userData.photoURL + ''
         }
 
+      } else {
+        this.appUser = {
+          logged: false,
+          title: 'Login / Entrar',
+          url: '/login',
+          icon: 'log-in',
+          avatar: ''
+        }
       }
 
     });
+
+  }
+
+  ngOnChanges() {
+    this.ngOnInit();
   }
 
 }

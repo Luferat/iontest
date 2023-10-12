@@ -11,6 +11,8 @@ import { Geolocation } from '@capacitor/geolocation';
 import { Camera, CameraResultType } from '@capacitor/camera';
 import { ToolsService } from 'src/app/services/tools.service';
 
+import { AlertController } from '@ionic/angular';
+
 @Component({
   selector: 'app-new',
   templateUrl: './new.page.html',
@@ -32,7 +34,7 @@ export class NewPage implements OnInit {
     date: '',
     name: '',
     description: '',
-    image: '/assets/generic.png',
+    image: environment.dbDefaultImage,
     location: '',
     geolocation: '',
     owner: '',
@@ -63,6 +65,9 @@ export class NewPage implements OnInit {
 
   // Mostra formulário ainda não enviado.
   sended = false;
+
+  // Caixa de alerta.
+  alertController = inject(AlertController);
 
   constructor() { }
 
@@ -98,19 +103,35 @@ export class NewPage implements OnInit {
         allowEditing: true,
         resultType: CameraResultType.DataUrl
 
-      }).then(x => {
+      }).then(async x => {
 
-        // Envia para a view.
-        this.newDocument.image = x.dataUrl + '';
+        // Se o formato da imagem é válido.
+        if (environment.dbImageFormats.includes(x.format)) {
 
-        // Atualiza formato da imagem.
-        this.photoFormat = x.format;
+          // Envia para a view.
+          this.newDocument.image = x.dataUrl + '';
+
+          // Atualiza formato da imagem.
+          this.photoFormat = x.format;
+
+          // Se o formato da imagem é inválido.
+        } else {
+
+          // Emite mensagem de alerta.
+          const alert = await this.alertController.create({
+            header: 'Oooops!',
+            message: 'Formato de imagem não suportado! Use somente ' + environment.dbImageFormats.join(', ') + '.',
+            buttons: ['OK'],
+          });
+          await alert.present();
+
+        }
       })
 
     } else {
 
       // Carrega imagem padrão.
-      this.newDocument.image = '/assets/generic.png';
+      this.newDocument.image = environment.dbDefaultImage;
     }
   }
 
@@ -139,7 +160,7 @@ export class NewPage implements OnInit {
     this.newDocument.date = this.tools.now();
 
     // Se atualizou a foto, ou seja, não está usando a foto padrão.
-    if (this.newDocument.image !== '/assets/generic.png') {
+    if (this.newDocument.image !== environment.dbDefaultImage) {
 
       // Cria um nome aleatório para a foto usando 'getRandomChars()' e adiciona o formato.
       let storageRef = ref(this.storage, `${this.tools.getRandomChars(10)}.${this.photoFormat}`);
@@ -149,10 +170,10 @@ export class NewPage implements OnInit {
        * Referências: https://firebase.google.com/docs/storage/web/upload-files?hl=pt-br
        **/
       uploadString(
-        storageRef,                                      // Dome da imagem.
+        storageRef,                                   // Dome da imagem.
         this.newDocument.image.split(',')[1],         // Dados binários da imagem.
-        'base64',                                        // Formato dos dados.
-        { contentType: `image/${this.photoFormat}` }     // Formato da foto.
+        'base64',                                     // Formato dos dados.
+        { contentType: `image/${this.photoFormat}` }  // Formato da foto.
       ).then(() => {
 
         /**
@@ -183,28 +204,50 @@ export class NewPage implements OnInit {
 
   // Salva metadados no Firestore.
   saveForm() {
-    
-     // Salva formulário no banco de dados.
-     addDoc(this.dbCollection, this.newDocument)
 
-     // Se teve sucesso, oculta formulário e agradece ao usuário.
-     .then((data) => {
-       // console.log('Contato salvo com o Id: ' + data.id);
-       this.sended = true;
-     })
+    // Desabilita o botão de envio.
+    this.btnDisabled = true;
 
-     // Se falhou, exibe mensagem de erro no console.
-     .catch((error) => {
-       console.error(error);
-     })
+    // Oculta view e mostra barra de progresso.
+    this.view = false;
 
-   }
+    // Salva formulário no banco de dados.
+    addDoc(this.dbCollection, this.newDocument)
 
-   // Reinicia o formulário.
-   reload(){
+      // Se teve sucesso, oculta formulário e agradece ao usuário.
+      .then((data) => {
+        this.sended = true;
+        this.view = true;
+      })
 
-    // Recarrega a página.
-    location.href = '/new'
-   }
+      // Se falhou, exibe mensagem de erro no console.
+      .catch((error) => {
+        console.error(error);
+        this.view = true;
+      })
+
+  }
+
+  // Reinicia o formulário.
+  reload() {
+    this.sended = false;
+    this.view = true;
+    this.newDocument = {
+      date: '',
+      name: '',
+      description: '',
+      image: environment.dbDefaultImage,
+      location: '',
+      geolocation: this.newDocument.geolocation,
+      owner: this.newDocument.owner,
+      views: 0,
+      status: 'on'
+    }
+  }
+
+  // Abre localização no Google Maps, no navegador.
+  openMap() {
+    window.open(`https://www.google.com/maps?q=${this.newDocument.geolocation}`, 'blank');
+  }
 
 }
