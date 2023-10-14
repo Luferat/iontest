@@ -77,6 +77,16 @@ const routes: Routes = [
     title: environment.appName + ' - Novo Documento',
     loadChildren: () => import('./pages/new/new.module').then( m => m.NewPageModule)
   },
+  {
+    path: 'add',
+    title: environment.appName + ' - Novo Documento',
+    loadChildren: () => import('./pages/document/document.module').then( m => m.DocumentPageModule)
+  },
+  {
+    path: 'edit/:id',
+    title: environment.appName + ' - Editar Documento',
+    loadChildren: () => import('./pages/document/document.module').then( m => m.DocumentPageModule)
+  },
 
   // Rota curinga. Deve ser sempre a última rota desta lista.
   {
@@ -84,6 +94,7 @@ const routes: Routes = [
     redirectTo: 'e404',
     pathMatch: 'full'
   }
+
 
 ];
 
