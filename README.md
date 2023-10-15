@@ -9,7 +9,7 @@ Resumidamente, nesses passos, você vai fazer "fork" do repositório original, "
  - Abra o navegador padrão e acesse o site [Firebase](https://firebase.com).
  - Logue-se com sua conta Gmail.
  - Se ainda não o fez, crie um novo projeto e, neste, um novo aplicativo Web.
- - Ative também os serviços *Authentication* e *Cloud Firestore*.
+ - Ative também os serviços *Authentication*, *Cloud Firestore* e *Storage*.
 
 > Os passos para criar um projetos e o aplicativo no Firebase não serão descritos aqui. Pesquise!
 
