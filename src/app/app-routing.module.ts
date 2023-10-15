@@ -73,11 +73,6 @@ const routes: Routes = [
     loadChildren: () => import('./tests/device/device.module').then(m => m.DevicePageModule)
   },
   {
-    path: 'new',
-    title: environment.appName + ' - Novo Documento',
-    loadChildren: () => import('./pages/new/new.module').then( m => m.NewPageModule)
-  },
-  {
     path: 'add',
     title: environment.appName + ' - Novo Documento',
     loadChildren: () => import('./pages/document/document.module').then( m => m.DocumentPageModule)

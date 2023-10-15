@@ -17,10 +17,8 @@ import { environment } from 'src/environments/environment';
 })
 export class ProfilePage implements OnInit {
 
-  // Inicializa core do Firebase.
+  // Inicializa Firebase.
   app = initializeApp(environment.firebase);
-
-  // Inicializa Authentication.
   auth = getAuth(this.app);
 
   // Model do usuário.

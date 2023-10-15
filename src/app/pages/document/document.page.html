@@ -82,17 +82,17 @@
 
   <div *ngIf="pageSended">
 
-    <ion-card *ngIf="!this.docEdit">
+    <ion-card>
 
       <ion-card-header>
         <ion-card-title>Oba!</ion-card-title>
       </ion-card-header>
   
       <ion-card-content>
-        {{ message }}
+        {{ pageMessage }}
         <ion-grid class="ion-no-padding ion-margin-top">
           <ion-row>
-            <ion-col><ion-button (click)="reload()"><ion-icon ios="add-circle-outline" md="add-circle-sharp" slot="start"></ion-icon>Novo</ion-button></ion-col>
+            <ion-col *ngIf="!this.docEdit"><ion-button (click)="reload()"><ion-icon ios="add-circle-outline" md="add-circle-sharp" slot="start"></ion-icon>Novo</ion-button></ion-col>
             <ion-col><ion-button routerLink="/"><ion-icon ios="home-outline" md="home-sharp" slot="start"></ion-icon>Listagem</ion-button></ion-col>
           </ion-row>
         </ion-grid>

@@ -5,7 +5,7 @@ import { AlertController } from '@ionic/angular';
 import { environment } from 'src/environments/environment';
 import { initializeApp } from 'firebase/app';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { addDoc, collection, doc, getDoc, getFirestore } from 'firebase/firestore';
+import { addDoc, collection, doc, getDoc, getFirestore, updateDoc } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 
 import { ToolsService } from 'src/app/services/tools.service';
@@ -62,32 +62,24 @@ export class DocumentPage implements OnInit {
   ngOnInit() {
 
     onAuthStateChanged(this.auth, (userData) => { // Monitora usuário logado.
-      if (userData) { // Se logado.
-
-        this.getGPS(); // Obtém GPS.
-        this.userId = userData.uid; // Obtém o id do usuário.
-        this.docId = this.activatedRoute.snapshot.paramMap.get('id') as string; // Obtém o id do documento da rota.
-
-        if (this.docId) { // Se tem id.
-
-          this.docEdit = true;  // Documento está sendo editado.
-          this.pageTitle = 'Editar Documento'; // Título da página.
-          this.getDocument(); // Obtém documento da coleção.
-
-        } else { // Se não tem id.
-
-          this.docEdit = false; // Documento está sendo criado.
-          this.pageTitle = 'Novo Documento'; // Título da página.
-          this.newDocument(); // Cria novo documento.
-
-        }
-
-      } else { // Se não logado.
-
+      if (!userData) // Se não está logado.
         this.router.navigate(['/login']); // Envia para login.
-
-      }
+      else // Se está logado.
+        this.userId = userData.uid; // Obtém o id do usuário.
     });
+
+    this.docId = this.activatedRoute.snapshot.paramMap.get('id') as string; // Obtém o id do documento da rota.
+    this.getGPS(); // Obtém GPS.
+
+    if (this.docId) { // Se tem id.
+      this.docEdit = true;  // Documento está sendo editado.
+      this.pageTitle = 'Editar Documento'; // Título da página.
+      this.getDocument(); // Obtém documento da coleção.
+    } else { // Se não tem id.
+      this.docEdit = false; // Documento está sendo criado.
+      this.pageTitle = 'Novo Documento'; // Título da página.
+      this.newDocument(); // Cria novo documento.
+    }
 
   }
 
@@ -254,11 +246,28 @@ export class DocumentPage implements OnInit {
     // Se está editando um documento.
     if (this.docEdit) {
 
+      // Atualiza documento.
+      updateDoc(this.docRef, this.document)
+        .then(() => {
+
+          // Se teve sucesso, oculta formulário e agradece ao usuário.
+          this.pageSended = true;
+          this.pageView = true;
+          this.pageMessage = 'Documento atualizado com sucesso!';
+
+        });
+
       // Se está criando um documento.
     } else {
 
       // Define a coleção onde os contatos são armazenados.
       const dbCollection = collection(this.db, environment.dbCollection);
+
+      // Atualiza data da criação.
+      this.document.date = this.tools.now();
+
+      // Atualiza proprietário do documento.
+      this.document.owner = this.userId;
 
       // Salva formulário no banco de dados.
       addDoc(dbCollection, this.document)
@@ -274,7 +283,7 @@ export class DocumentPage implements OnInit {
 
   }
 
-  // Reinicia o formulário.
+  // Reinicia o formulário ao criar novo documento.
   reload() {
     this.pageSended = false;
     this.pageView = true;
