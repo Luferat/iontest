@@ -1,5 +1,6 @@
 # Ionic Test
 Aplicativo modelo para as aulas de "Desenvolvimento de Aplicativos Híbridos" usando [Angular](https://angular.io/), [Ionic](https://ionicframework.com/), [Capacitor](https://capacitorjs.com/) e [Firebase](https://firebase.com).
+É um *CRUD* - Create, Read, Update, Delete - para gerir o cadastro de **alguma coisa**. Também temos um formulário de contatos e outros recursos baseados no back-end fornecido pelo Firebase.com.
 
 > Nestes passos, estamos usando o [GitHub Desktop](https://desktop.github.com) para fazer versionamento no Windows 10/11. O GitHub Desktop já deve estar instalado no computador.
 
