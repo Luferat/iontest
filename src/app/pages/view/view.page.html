@@ -28,7 +28,7 @@
       <ion-grid>
         <ion-row>
           <ion-col class="ion-text-center">
-            <ion-button color="warning"><ion-icon name="create" slot="start"></ion-icon>Editar</ion-button>
+            <ion-button color="warning" [routerLink]="'/edit/' + docView.id"><ion-icon name="create" slot="start"></ion-icon>Editar</ion-button>
           </ion-col>
           <ion-col class="ion-text-center">
             <ion-button color="danger" (click)="delete(docView.id)"><ion-icon name="trash"
