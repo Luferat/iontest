@@ -24,7 +24,7 @@ export class DocumentPage implements OnInit {
   auth = getAuth(this.app);
   db = getFirestore(this.app);
   
-  // Dependências.
+  // Injeção de dependências.
   router = inject(Router);
   activatedRoute = inject(ActivatedRoute);
   alertController = inject(AlertController);
@@ -53,7 +53,7 @@ export class DocumentPage implements OnInit {
 
   // Dados do Capacitor.
   capacitorGPS: any;
-  capacitorFotoFormat = '';
+  capacitorImageFormat = '';
 
   constructor() { }
 
@@ -113,7 +113,6 @@ export class DocumentPage implements OnInit {
       await alert.present();
 
     }
-
   }
 
   // Cria novo documento.
@@ -139,7 +138,7 @@ export class DocumentPage implements OnInit {
 
   // Obtém a imagem do documento.
   // option = 'new'* | 'reset'
-  // Foto do documento.
+  // Imagem do documento.
   getPhoto(option: string) {
     if (option == 'new') {
 
@@ -148,6 +147,8 @@ export class DocumentPage implements OnInit {
         // Configurações da captura da imagem.
         quality: 20,
         allowEditing: true,
+        width: 640,
+        height: 640,
         resultType: CameraResultType.DataUrl
 
       }).then(async x => {
@@ -159,7 +160,7 @@ export class DocumentPage implements OnInit {
           this.document.image = x.dataUrl + '';
 
           // Atualiza formato da imagem.
-          this.capacitorFotoFormat = x.format;
+          this.capacitorImageFormat = x.format;
 
           // Se o formato da imagem é inválido.
         } else {
