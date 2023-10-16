@@ -142,7 +142,7 @@ export class NewPage implements OnInit {
     if (this.newDocument.image !== '/assets/generic.png') {
 
       // Cria um nome aleatório para a foto usando 'getRandomChars()' e adiciona o formato.
-      let storageRef = ref(this.storage, `${this.tools.getRandomChars(10)}.${this.photoFormat}`);
+      let storageRef = ref(this.storage, `documents/${this.tools.getRandomChars(10)}.${this.photoFormat}`);
 
       /**
        * Envia a foto para o servidor no formato 'String/Base64'.
