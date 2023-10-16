@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { environment } from 'src/environments/environment';
 
 import { initializeApp } from 'firebase/app';
@@ -14,13 +14,9 @@ import { ToolsService } from 'src/app/services/tools.service';
 })
 export class ContactsPage implements OnInit {
 
-  // Inicializa core do Firebase.
+  // Inicializa Firebase.
   app = initializeApp(environment.firebase);
-
-  // Inicializa Authentication.
   auth = getAuth(this.app);
-
-  // Inicializa o Firestore.
   db = getFirestore(this.app);
 
   // Define a coleção onde os contatos são armazenados.
@@ -35,6 +31,9 @@ export class ContactsPage implements OnInit {
   // Formulário ainda não foi enviado, mostra formulário.
   sended = false;
 
+  // Services de uso geral.
+  tools = inject(ToolsService);
+
   // Model do formulário.
   form = {
     date: '',
@@ -45,17 +44,14 @@ export class ContactsPage implements OnInit {
     status: 'received'
   }
 
-  constructor(
-    private tools: ToolsService
-  ) { }
+  constructor() { }
 
   ngOnInit() {
 
-    // Monitora usuário logado.
-    onAuthStateChanged(this.auth, (userData) => {
-      if (userData) {
-        this.form.name = userData.displayName + '';
-        this.form.email = userData.email + '';
+    onAuthStateChanged(this.auth, (userData) => {   // Monitora usuário logado.
+      if (userData) {                               // Se está logado.
+        this.form.name = userData.displayName + ''; // Recupera nome.
+        this.form.email = userData.email + '';      // Recupera e-mail.
       }
     });
 
@@ -87,14 +83,8 @@ export class ContactsPage implements OnInit {
 
       // Se teve sucesso, oculta formulário e agradece ao usuário.
       .then((data) => {
-        // console.log('Contato salvo com o Id: ' + data.id);
         this.sended = true;
-      })
-
-      // Se falhou, exibe mensagem de erro no console.
-      .catch((error) => {
-        console.error(error);
-      })
+      });
 
     // Conclui 'sendForm()'.
     return true;

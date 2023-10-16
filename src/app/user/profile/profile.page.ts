@@ -17,10 +17,8 @@ import { environment } from 'src/environments/environment';
 })
 export class ProfilePage implements OnInit {
 
-  // Inicializa core do Firebase.
+  // Inicializa Firebase.
   app = initializeApp(environment.firebase);
-
-  // Inicializa Authentication.
   auth = getAuth(this.app);
 
   // Model do usuário.
@@ -57,7 +55,7 @@ export class ProfilePage implements OnInit {
       } else {
 
         // Se não está logado, redireciona, por exemplo, para 'login'.
-        this.router.navigate(['/login']);
+        this.router.navigate(['/home']);
       }
     });
   }
@@ -67,8 +65,7 @@ export class ProfilePage implements OnInit {
     this.auth.signOut();
 
     // Vai para a home.
-    // Use 'location.href' para ação imediata, em vez de router.navigate().    
-    location.href = '/';
+    this.router.navigate(['/home']);
   }
 
   // Acessa o perfil do usuário no Google.

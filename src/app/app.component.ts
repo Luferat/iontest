@@ -37,7 +37,7 @@ export class AppComponent {
   // Menu principal.
   public appPages = [
     { title: 'Início', url: 'home', icon: 'home' },
-    { title: 'Novo', url: 'new', icon: 'add-circle' },
+    { title: 'Novo', url: 'add', icon: 'add-circle' },
     { title: 'Contatos', url: 'contacts', icon: 'mail' },
     { title: 'Sobre', url: 'about', icon: 'information-circle' },
     { title: 'Autores', url: 'author', icon: 'people' },
@@ -62,9 +62,22 @@ export class AppComponent {
           avatar: userData.photoURL + ''
         }
 
+      } else {
+        this.appUser = {
+          logged: false,
+          title: 'Login / Entrar',
+          url: '/login',
+          icon: 'log-in',
+          avatar: ''
+        }
       }
 
     });
+
+  }
+
+  ngOnChanges() {
+    this.ngOnInit();
   }
 
 }
