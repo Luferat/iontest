@@ -6,7 +6,6 @@ import { environment } from 'src/environments/environment';
 import { initializeApp } from 'firebase/app';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { addDoc, collection, doc, getDoc, getFirestore, updateDoc } from 'firebase/firestore';
-import { getStorage } from 'firebase/storage';
 
 import { ToolsService } from 'src/app/services/tools.service';
 
@@ -24,8 +23,7 @@ export class DocumentPage implements OnInit {
   app = initializeApp(environment.firebase);
   auth = getAuth(this.app);
   db = getFirestore(this.app);
-  storage = getStorage(this.app);
-
+  
   // Dependências.
   router = inject(Router);
   activatedRoute = inject(ActivatedRoute);
